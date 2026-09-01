@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield | Small Business Cybersecurity</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        :root {
+            --bg: #08111f;
+            --card: #101c2e;
+            --card2: #14243a;
+            --text: #e8f1ff;
+            --muted: #91a4bd;
+            --primary: #00e5ff;
+            --green: #22c55e;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+            --border: rgba(255, 255, 255, .08);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #07101c;
+            border-right: 1px solid var(--border);
+            padding: 25px 15px;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 25px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #00e5ff, #0077ff);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+        }
+
+        .logo h2 {
+            font-size: 18px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .menu button {
+            width: 100%;
+            background: transparent;
+            border: 0;
+            color: var(--muted);
+            padding: 13px 15px;
+            margin: 3px 0;
+            text-align: left;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .menu button:hover,
+        .menu button.active {
+            background: rgba(0, 229, 255, .1);
+            color: var(--primary);
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+            max-width: 1600px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .topbar p {
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        .status {
+            padding: 10px 16px;
+            background: rgba(34, 197, 94, .1);
+            border: 1px solid rgba(34, 197, 94, .25);
+            border-radius: 30px;
+            color: #4ade80;
+            font-size: 13px;
+        }
+
+        /* SECTIONS */
+        .page {
+            display: none;
+            animation: fade .3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+        }
+
+        .section-title h2 {
+            font-size: 22px;
+        }
+
+        .section-title p {
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        /* CARDS */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-icon {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card h3 {
+            font-size: 27px;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .green {
+            color: var(--green);
+        }
+
+        .yellow {
+            color: var(--yellow);
+        }
+
+        .red {
+            color: var(--red);
+        }
+
+        .cyan {
+            color: var(--primary);
+        }
+
+        /* PROGRESS */
+        .progress-box {
+            margin-top: 18px;
+        }
+
+        .progress-head {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .progress {
+            height: 8px;
+            background: #1b2b40;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #00e5ff, #0077ff);
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        td {
+            color: #dce8f8;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge.green {
+            background: rgba(34, 197, 94, .12);
+        }
+
+        .badge.yellow {
+            background: rgba(245, 158, 11, .12);
+        }
+
+        .badge.red {
+            background: rgba(239, 68, 68, .12);
+        }
+
+        /* POLICY */
+        .policy-list {
+            list-style: none;
+        }
+
+        .policy-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            color: #cbd8e9;
+        }
+
+        .policy-list li::before {
+            content: "✓";
+            color: var(--green);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* INCIDENT FLOW */
+        .flow {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .flow-step {
+            text-align: center;
+            background: var(--card2);
+            padding: 18px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .flow-step strong {
+            display: block;
+            color: var(--primary);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .flow-step span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* TECH */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .tech-card {
+            padding: 22px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .tech-card .tech-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .tech-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .tech-card p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* NETWORK */
+        .network {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .network-box {
+            padding: 15px 30px;
+            background: var(--card2);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .network-line {
+            width: 2px;
+            height: 25px;
+            background: var(--primary);
+        }
+
+        .network-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .network-row .network-box {
+            min-width: 140px;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            border-left: 2px solid var(--primary);
+            padding-left: 25px;
+            margin: 20px 10px;
+        }
+
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -32px;
+            top: 3px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--primary);
+        }
+
+        .timeline-item h3 {
+            margin-bottom: 6px;
+        }
+
+        .timeline-item p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* BUTTON */
+        .btn {
+            border: 0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #00151a;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            opacity: .85;
+        }
+
+        /* MOBILE */
+        .mobile-menu {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1000px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .flow {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: .3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                gap: 10px;
+            }
+
+            .topbar h1 {
+                font-size: 20px;
+            }
+
+            .grid,
+            .grid-2,
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            table {
+                min-width: 650px;
+            }
+
+            .table-wrap {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🛡️</div>
+            <h2>Cyber<span>Shield</span></h2>
+        </div>
+
+        <nav class="menu">
+            <button class="active" onclick="showPage('dashboard', this)">📊 Dashboard</button>
+            <button onclick="showPage('policy', this)">🔐 Cybersecurity Policy</button>
+            <button onclick="showPage('incident', this)">🚨 Incident Response</button>
+            <button onclick="showPage('risk', this)">⚠️ Risk Assessment</button>
+            <button onclick="showPage('continuity', this)">🔄 Business Continuity</button>
+            <button onclick="showPage('recovery', this)">💾 Disaster Recovery</button>
+            <button onclick="showPage('technology', this)">⚙️ Technologies</button>
+            <button onclick="showPage('network', this)">🌐 Network Architecture</button>
+            <button onclick="showPage('testing', this)">🧪 Testing & Demo</button>
+            <button onclick="showPage('viva', this)">🎓 Viva Questions</button>
+        </nav>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+                <h1 id="pageTitle">Security Dashboard</h1>
+                <p>ABC IT Solutions Pvt. Ltd. — B.Tech Cybersecurity Project</p>
+            </div>
+
+            <div class="status">
+                ● SYSTEM SECURE
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page active">
+
+            <div class="section-title">
+                <h2>Security Overview</h2>
+                <p>Current security posture of the organization.</p>
+            </div>
+
+            <div class="grid">
+
+                <div class="card stat-card">
+                    <div class="stat-icon">🖥️</div>
+                    <h3>20</h3>
+                    <p>Protected Endpoints</p>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">🟢</div>
+                    <h3 class="green">98%</h3>
+                    <p>Security Compliance</p>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">💾</div>
+                    <h3>100%</h3>
+                    <p>Backup Coverage</p>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">⚠️</div>
+                    <h3 class="yellow">03</h3>
+                    <p>Open Security Alerts</p>
+                </div>
+
+            </div>
+
+            <div class="grid-2">
+
+                <div class="card">
+                    <h3>Security Controls</h3>
+
+                    <div class="progress-box">
+                        <div class="progress-head">
+                            <span>Network Security</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="progress"><span style="width:95%"></span></div>
+                    </div>
+
+                    <div class="progress-box">
+                        <div class="progress-head">
+                            <span>Endpoint Protection</span>
+                            <span>92%</span>
+                        </div>
+                        <div class="progress"><span style="width:92%"></span></div>
+                    </div>
+
+                    <div class="progress-box">
+                        <div class="progress-head">
+                            <span>Backup Readiness</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="progress"><span style="width:100%"></span></div>
+                    </div>
+
+                    <div class="progress-box">
+                        <div class="progress-head">
+                            <span>Employee Awareness</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress"><span style="width:85%"></span></div>
+                    </div>
+
+                </div>
+
+                <div class="card">
+                    <h3>Recent Security Events</h3>
+
+                    <div class="timeline">
+
+                        <div class="timeline-item">
+                            <h3>Failed Login Attempt</h3>
+                            <p>Multiple unsuccessful login attempts detected.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h3>Backup Completed</h3>
+                            <p>Daily business-data backup completed successfully.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h3>Security Update</h3>
+                            <p>Endpoint security updates completed.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- POLICY -->
+        <section id="policy" class="page">
+
+            <div class="section-title">
+                <h2>Cybersecurity Policy</h2>
+                <p>Security rules and requirements for ABC IT Solutions.</p>
+            </div>
+
+            <div class="grid-2">
+
+                <div class="card">
+                    <h3>🔑 Password & Authentication</h3>
+                    <ul class="policy-list">
+                        <li>Use strong passwords.</li>
+                        <li>Never share passwords.</li>
+                        <li>Enable MFA for important accounts.</li>
+                        <li>Do not reuse sensitive passwords.</li>
+                        <li>Report compromised credentials immediately.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💻 Endpoint Security</h3>
+                    <ul class="policy-list">
+                        <li>Keep operating systems updated.</li>
+                        <li>Enable endpoint protection.</li>
+                        <li>Use host firewall protection.</li>
+                        <li>Encrypt sensitive devices.</li>
+                        <li>Lock devices when unattended.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📧 Email Security</h3>
+                    <ul class="policy-list">
+                        <li>Check suspicious emails carefully.</li>
+                        <li>Do not open unexpected attachments.</li>
+                        <li>Verify suspicious links.</li>
+                        <li>Report phishing attempts.</li>
+                        <li>Never send passwords by email.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📁 Data Protection</h3>
+                    <ul class="policy-list">
+                        <li>Access data according to job requirements.</li>
+                        <li>Back up important information.</li>
+                        <li>Protect confidential information.</li>
+                        <li>Use encryption where appropriate.</li>
+                        <li>Securely dispose of sensitive information.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- INCIDENT -->
+        <section id="incident" class="page">
+
+            <div class="section-title">
+                <h2>Incident Response Plan</h2>
+                <p>Procedure for handling cybersecurity incidents.</p>
+            </div>
+
+            <div class="card">
+                <h3>Incident Response Lifecycle</h3>
+
+                <div class="flow">
+
+                    <div class="flow-step">
+                        <strong>01</strong>
+                        <span>Preparation</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>02</strong>
+                        <span>Detection</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>03</strong>
+                        <span>Identification</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>04</strong>
+                        <span>Containment</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>05</strong>
+                        <span>Eradication</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>06</strong>
+                        <span>Recovery</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>07</strong>
+                        <span>Lessons Learned</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <br>
+
+            <div class="grid-2">
+
+                <div class="card">
+                    <h3>🚨 Example: Phishing Incident</h3>
+                    <div class="timeline">
+
+                        <div class="timeline-item">
+                            <h3>Detection</h3>
+                            <p>Employee reports a suspicious email.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h3>Containment</h3>
+                            <p>Affected account or device is isolated when necessary.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h3>Eradication</h3>
+                            <p>Unauthorized access or malicious content is removed.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h3>Recovery</h3>
+                            <p>Credentials and affected systems are restored and verified.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>👥 Incident Response Team</h3>
+
+                    <div class="table-wrap">
+                        <table>
+                            <tr>
+                                <th>Role</th>
+                                <th>Responsibility</th>
+                            </tr>
+
+                            <tr>
+                                <td>Business Manager</td>
+                                <td>Business decisions</td>
+                            </tr>
+
+                            <tr>
+                                <td>IT Administrator</td>
+                                <td>Technical response</td>
+                            </tr>
+
+                            <tr>
+                                <td>Security Administrator</td>
+                                <td>Investigation</td>
+                            </tr>
+
+                            <tr>
+                                <td>HR</td>
+                                <td>Employee coordination</td>
+                            </tr>
+
+                            <tr>
+                                <td>Employees</td>
+                                <td>Incident reporting</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- RISK -->
+        <section id="risk" class="page">
+
+            <div class="section-title">
+                <h2>Risk Assessment</h2>
+                <p>Identified threats and their risk levels.</p>
+            </div>
+
+            <div class="card table-wrap">
+
+                <table>
+
+                    <tr>
+                        <th>Threat</th>
+                        <th>Likelihood</th>
+                        <th>Impact</th>
+                        <th>Risk</th>
+                        <th>Control</th>
+                    </tr>
+
+                    <tr>
+                        <td>Phishing</td>
+                        <td>High</td>
+                        <td>High</td>
+                        <td><span class="badge red">Critical</span></td>
+                        <td>Training + Email Security</td>
+                    </tr>
+
+                    <tr>
+                        <td>Malware</td>
+                        <td>Medium</td>
+                        <td>High</td>
+                        <td><span class="badge red">High</span></td>
+                        <td>Endpoint Protection</td>
+                    </tr>
+
+                    <tr>
+                        <td>Weak Passwords</td>
+                        <td>High</td>
+                        <td>High</td>
+                        <td><span class="badge red">Critical</span></td>
+                        <td>MFA + Password Policy</td>
+                    </tr>
+
+                    <tr>
+                        <td>Hardware Failure</td>
+                        <td>Medium</td>
+                        <td>Medium</td>
+                        <td><span class="badge yellow">Medium</span></td>
+                        <td>Backup + Replacement</td>
+                    </tr>
+
+                    <tr>
+                        <td>Data Deletion</td>
+                        <td>Medium</td>
+                        <td>High</td>
+                        <td><span class="badge red">High</span></td>
+                        <td>Regular Backups</td>
+                    </tr>
+
+                    <tr>
+                        <td>Network Outage</td>
+                        <td>Medium</td>
+                        <td>Medium</td>
+                        <td><span class="badge yellow">Medium</span></td>
+                        <td>Redundant Connectivity</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- CONTINUITY -->
+        <section id="continuity" class="page">
+
+            <div class="section-title">
+                <h2>Business Continuity Plan</h2>
+                <p>Keeping critical business operations running during disruptions.</p>
+            </div>
+
+            <div class="card">
+
+                <h3>Critical Business Services</h3>
+
+                <br>
+
+                <div class="table-wrap">
+                    <table>
+
+                        <tr>
+                            <th>Service</th>
+                            <th>Priority</th>
+                            <th>RTO</th>
+                            <th>Continuity Strategy</th>
+                        </tr>
+
+                        <tr>
+                            <td>Customer Database</td>
+                            <td><span class="badge red">Critical</span></td>
+                            <td>4 Hours</td>
+                            <td>Backup + Alternate System</td>
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td><span class="badge yellow">High</span></td>
+                            <td>4 Hours</td>
+                            <td>Cloud/Alternate Communication</td>
+                        </tr>
+
+                        <tr>
+                            <td>Financial Operations</td>
+                            <td><span class="badge yellow">High</span></td>
+                            <td>8 Hours</td>
+                            <td>Backup + Alternate Access</td>
+                        </tr>
+
+                        <tr>
+                            <td>Employee Documents</td>
+                            <td><span class="badge yellow">Medium</span></td>
+                            <td>24 Hours</td>
+                            <td>Backup Restoration</td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="grid-2">
+
+                <div class="card">
+                    <h3>Emergency Procedures</h3>
+                    <ul class="policy-list">
+                        <li>Activate the continuity plan.</li>
+                        <li>Notify employees.</li>
+                        <li>Prioritize critical services.</li>
+                        <li>Use alternative working arrangements.</li>
+                        <li>Monitor systems continuously.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Communication Channels</h3>
+                    <ul class="policy-list">
+                        <li>Company email</li>
+                        <li>Telephone</li>
+                        <li>Approved messaging platform</li>
+                        <li>Management communication</li>
+                        <li>Emergency contact list</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- RECOVERY -->
+        <section id="recovery" class="page">
+
+            <div class="section-title">
+                <h2>Disaster Recovery Plan</h2>
+                <p>Restoring IT systems and data after a major disruption.</p>
+            </div>
+
+            <div class="card">
+
+                <h3>Recovery Process</h3>
+
+                <div class="flow">
+
+                    <div class="flow-step">
+                        <strong>01</strong>
+                        <span>Disaster Occurs</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>02</strong>
+                        <span>Assess</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>03</strong>
+                        <span>Activate DR</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>04</strong>
+                        <span>Find Backup</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>05</strong>
+                        <span>Restore</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>06</strong>
+                        <span>Verify</span>
+                    </div>
+
+                    <div class="flow-step">
+                        <strong>07</strong>
+                        <span>Resume</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="grid-2">
+
+                <div class="card">
+                    <h3>Recovery Time Objective (RTO)</h3>
+                    <br>
+
+                    <table>
+                        <tr>
+                            <th>System</th>
+                            <th>RTO</th>
+                        </tr>
+
+                        <tr>
+                            <td>Customer Database</td>
+                            <td>4 Hours</td>
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td>4 Hours</td>
+                        </tr>
+
+                        <tr>
+                            <td>Financial System</td>
+                            <td>8 Hours</td>
+                        </tr>
+
+                        <tr>
+                            <td>Documents</td>
+                            <td>24 Hours</td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div class="card">
+                    <h3>Recovery Point Objective (RPO)</h3>
+                    <br>
+
+                    <table>
+                        <tr>
+                            <th>System</th>
+                            <th>RPO</th>
+                        </tr>
+
+                        <tr>
+                            <td>Customer Database</td>
+                            <td>1 Hour</td>
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td>4 Hours</td>
+                        </tr>
+
+                        <tr>
+                            <td>Financial Data</td>
+                            <td>4 Hours</td>
+                        </tr>
+
+                        <tr>
+                            <td>Documents</td>
+                            <td>24 Hours</td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TECHNOLOGIES -->
+        <section id="technology" class="page">
+
+            <div class="section-title">
+                <h2>Technology Stack</h2>
+                <p>Technologies used in the proposed cybersecurity architecture.</p>
+            </div>
+
+            <div class="tech-grid">
+
+                <div class="tech-card">
+                    <div class="tech-icon">🔥</div>
+                    <h3>pfSense</h3>
+                    <p>Firewall and network security platform used to control and protect network traffic.</p>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-icon">👁️</div>
+                    <h3>Wazuh</h3>
+                    <p>Security monitoring platform for analyzing endpoint and system security events.</p>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-icon">🪟</div>
+                    <h3>Windows 11</h3>
+                    <p>Represents employee endpoints with built-in security controls.</p>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-icon">🐧</div>
+                    <h3>Ubuntu Server</h3>
+                    <p>Can host security monitoring components in the laboratory environment.</p>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-icon">📦</div>
+                    <h3>VirtualBox</h3>
+                    <p>Used to create virtual machines for the cybersecurity laboratory.</p>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-icon">💾</div>
+                    <h3>Backup Storage</h3>
+                    <p>Stores copies of important test data for disaster recovery demonstrations.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- NETWORK -->
+        <section id="network" class="page">
+
+            <div class="section-title">
+                <h2>Network Architecture</h2>
+                <p>Proposed secure network design for ABC IT Solutions.</p>
+            </div>
+
+            <div class="card network">
+
+                <div class="network-box">
+                    🌐<br>
+                    <strong>INTERNET</strong>
+                </div>
+
+                <div class="network-line"></div>
+
+                <div class="network-box">
+                    🔥<br>
+                    <strong>pfSense Firewall</strong>
+                </div>
+
+                <div class="network-line"></div>
+
+                <div class="network-box">
+                    🔀<br>
+                    <strong>LAN / SWITCH</strong>
+                </div>
+
+                <div class="network-line"></div>
+
+                <div class="network-row">
+
+                    <div class="network-box">
+                        💻<br>
+                        Employee PC 01
+                    </div>
+
+                    <div class="network-box">
+                        💻<br>
+                        Employee PC 02
+                    </div>
+
+                    <div class="network-box">
+                        🗄️<br>
+                        File Server
+                    </div>
+
+                    <div class="network-box">
+                        👁️<br>
+                        Wazuh
+                    </div>
+
+                    <div class="network-box">
+                        💾<br>
+                        Backup
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TESTING -->
+        <section id="testing" class="page">
+
+            <div class="section-title">
+                <h2>Testing & Demonstration</h2>
+                <p>Project test cases and expected results.</p>
+            </div>
+
+            <div class="card table-wrap">
+
+                <table>
+
+                    <tr>
+                        <th>Test Case</th>
+                        <th>Expected Result</th>
+                        <th>Status</th>
+                    </tr>
+
+                    <tr>
+                        <td>Unauthorized Network Connection</td>
+                        <td>Connection blocked</td>
+                        <td><span class="badge green">PASS</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Failed Login Attempt</td>
+                        <td>Event monitored</td>
+                        <td><span class="badge green">PASS</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Test File Backup</td>
+                        <td>Backup created</td>
+                        <td><span class="badge green">PASS</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Test File Deletion</td>
+                        <td>File restored</td>
+                        <td><span class="badge green">PASS</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Security Alert</td>
+                        <td>Alert generated</td>
+                        <td><span class="badge green">PASS</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Phishing Simulation</td>
+                        <td>Incident procedure activated</td>
+                        <td><span class="badge green">PASS</span></td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <br>
+
+            <div class="card">
+                <h3>Safe Demonstration</h3>
+                <p style="color:var(--muted); margin-top:10px; line-height:1.7;">
+                    The project should use safe simulated security events rather than
+                    real destructive malware. For example, failed login attempts,
+                    test security alerts, and a test-file backup/restoration procedure
+                    can demonstrate the required concepts.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- VIVA -->
+        <section id="viva" class="page">
+
+            <div class="section-title">
+                <h2>B.Tech Viva Questions</h2>
+                <p>Important questions and answers for project presentation.</p>
+            </div>
+
+            <div class="grid-2">
+
+                <div class="card">
+                    <h3>What is cybersecurity?</h3>
+                    <p style="color:var(--muted); margin-top:10px;">
+                        Cybersecurity is the practice of protecting systems, networks,
+                        applications, and data from unauthorized access, attacks,
+                        damage, and disruption.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>What is Incident Response?</h3>
+                    <p style="color:var(--muted); margin-top:10px;">
+                        Incident Response is a structured process used to detect,
+                        investigate, contain, eradicate, and recover from security
+                        incidents.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>What is BCP?</h3>
+                    <p style="color:var(--muted); margin-top:10px;">
+                        Business Continuity Planning focuses on keeping critical
+                        business operations running during disruptions.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>What is DRP?</h3>
+                    <p style="color:var(--muted); margin-top:10px;">
+                        Disaster Recovery Planning focuses on restoring IT systems
+                        and data after a major disruption.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>What is RTO?</h3>
+                    <p style="color:var(--muted); margin-top:10px;">
+                        Recovery Time Objective is the target time within which a
+                        service should be restored after a disruption.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>What is RPO?</h3>
+                    <p style="color:var(--muted); margin-top:10px;">
+                        Recovery Point Objective defines the target amount of recent
+                        data that the organization can afford to lose.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Why use pfSense?</h3>
+                    <p style="color:var(--muted); margin-top:10px;">
+                        pfSense is used as a firewall to control and protect network
+                        traffic between external and internal networks.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Why use Wazuh?</h3>
+                    <p style="color:var(--muted); margin-top:10px;">
+                        Wazuh provides security monitoring and helps identify
+                        suspicious events and security-related activity.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+
+        const titles = {
+            dashboard: "Security Dashboard",
+            policy: "Cybersecurity Policy",
+            incident: "Incident Response Plan",
+            risk: "Risk Assessment",
+            continuity: "Business Continuity Plan",
+            recovery: "Disaster Recovery Plan",
+            technology: "Technology Stack",
+            network: "Network Architecture",
+            testing: "Testing & Demonstration",
+            viva: "B.Tech Viva Questions"
+        };
+
+        function showPage(pageId, button) {
+
+            document.querySelectorAll(".page").forEach(page => {
+                page.classList.remove("active");
+            });
+
+            document.getElementById(pageId).classList.add("active");
+
+            document.querySelectorAll(".menu button").forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+            document.getElementById("pageTitle").textContent = titles[pageId];
+
+            document.getElementById("sidebar").classList.remove("open");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+
+    </script>
+
+</body>
+
+</html>
